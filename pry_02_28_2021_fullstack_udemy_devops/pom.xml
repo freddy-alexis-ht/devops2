@@ -35,6 +35,12 @@
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 		
+		<!-- Spring Boot dependencies - security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		
 		<!-- Webjars for Bootstrap & JQuery -->
 		<dependency>
 			<groupId>org.webjars</groupId>
@@ -53,6 +59,13 @@
 			<artifactId>logback-classic</artifactId>
 		</dependency>
 
+		<!-- Spring Security con Thymeleaf -->
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
+			<version>3.0.4.RELEASE</version>
+		</dependency>
+		
 		<!-- Test dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
