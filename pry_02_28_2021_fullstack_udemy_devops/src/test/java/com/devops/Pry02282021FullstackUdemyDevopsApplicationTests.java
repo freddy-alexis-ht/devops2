@@ -2,18 +2,12 @@ package com.devops;
 
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.devops.web.i18n.I18NService;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-//@SpringApplicationConfiguration(classes=Pry02282021FullstackUdemyDevopsApplication.class)
 @SpringBootTest
-@WebAppConfiguration
 class Pry02282021FullstackUdemyDevopsApplicationTests {
 
 	@Autowired
