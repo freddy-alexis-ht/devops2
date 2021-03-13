@@ -16,6 +16,9 @@ import com.devops.backend.persistence.domain.backend.UserRole;
 import com.devops.backend.persistence.repositories.PlanRepository;
 import com.devops.backend.persistence.repositories.RoleRepository;
 import com.devops.backend.persistence.repositories.UserRepository;
+import com.devops.enums.PlansEnum;
+import com.devops.enums.RolesEnum;
+import com.devops.utils.UsersUtils;
 
 @SpringBootTest
 public class RepositoriesIntegrationTest {
@@ -29,13 +32,7 @@ public class RepositoriesIntegrationTest {
     @Autowired
     private UserRepository userRepository;
     
-    private static final int BASIC_PLAN_ID = 1;
-    private static final int BASIC_ROLE_ID = 1;
-    
-    // Este método se ejecutará antes de que se ejecute cada test
-    // Aquí queremos asegurarnos que nuestros repositorios no son null
-    // 'assert' significa 'debe ser', por lo tanto 'assertNotNull' significa que no debe ser null
-    @Before // org.junit
+    @Before 
     public void init() {
     	Assert.assertNotNull(planRepository);
     	Assert.assertNotNull(roleRepository);
@@ -44,66 +41,45 @@ public class RepositoriesIntegrationTest {
     
     //-----------------> Tests
 
-    // Este método creará un Plan, lo guardará, lo recuperará y verificará que no sea null
-    // En el video usaba 'planRepository.findOne(..)', pero en la versión que uso..
-    // ..ya no existe ese método, en su lugar está 'findById(..)', este método devuelve..
-    // ..un Optional<T>. En este caso se usa orElse(null), en caso exista el valor, lo..
-    // ..devolverá, caso contrario devolverá null
     @Test 
     public void testCreateNewPlan() throws Exception {
-        Plan basicPlan = createBasicPlan();
+        Plan basicPlan = createPlan(PlansEnum.BASIC);
         planRepository.save(basicPlan);
-        Plan retrievedPlan = planRepository.findById(BASIC_PLAN_ID).orElse(null);
+        Plan retrievedPlan = planRepository.findById(PlansEnum.BASIC.getId()).orElse(null);
         Assert.assertNotNull(retrievedPlan);
     }
     
     @Test 
     public void testCreateNewRole() throws Exception {
-    	Role userRole = createBasicRole();
+    	Role userRole = createRole(RolesEnum.BASIC);
     	roleRepository.save(userRole);
-    	Role retrievedRole = roleRepository.findById(BASIC_ROLE_ID).orElse(null);
+    	Role retrievedRole = roleRepository.findById(RolesEnum.BASIC.getId()).orElse(null);
     	Assert.assertNotNull(retrievedRole);
     }
     
     @Test 
     public void testCreateNewUser() throws Exception {
     
-    	// Create and save a Plan record
-        Plan basicPlan = createBasicPlan();
+        Plan basicPlan = createPlan(PlansEnum.BASIC);
         planRepository.save(basicPlan);
 
-        // Se crea un User-instance con el método-private
-        // Se settea la entidad-Plan guardada como FK en User
-        User basicUser = createBasicUser();
+        User basicUser = UsersUtils.createBasicUser();
         basicUser.setPlan(basicPlan);
 
-        // Se crea un Role, UserRole y un Set-UserRole
-        // userRoles tendrá todas roles de un usuario específico.
-        Role basicRole = createBasicRole();
+        Role basicRole = createRole(RolesEnum.BASIC);
         Set<UserRole> userRoles = new HashSet<>();
-        UserRole userRole = new UserRole();
-        userRole.setUser(basicUser);
-        userRole.setRole(basicRole);
+        UserRole userRole = new UserRole(basicUser, basicRole);
         userRoles.add(userRole);
         
-        // * To add values to a collection within a JPA entity, always use the getter..
-        // ..method first and add all the objects afterwards.
-        // Si solo se usara el setter los valores anteriores se borrarían.
         basicUser.getUserRoles().addAll(userRoles);
 
-        // Before saving the User-instance, it's necessary to save the other side of the..
-        // ..'User to Role' relationship by persisting all Role's. De otro modo tal vez la..
-        // ..relación M:N no funcione por problemas de inconsistencia.
         for (UserRole ur : userRoles) {
             roleRepository.save(ur.getRole());
         }
 
-        // Now that all relationship entities have been saved, it saves the User-entity
         basicUser = userRepository.save(basicUser);
         User newlyCreatedUser = userRepository.findById(basicUser.getId()).orElse(null);
         
-        // If all relationships contain data after running 'findById()', it means..
-        // ..our Repositories work correctly
         Assert.assertNotNull(newlyCreatedUser);
         Assert.assertTrue(newlyCreatedUser.getId() != 0);
         Assert.assertNotNull(newlyCreatedUser.getPlan());
@@ -119,34 +95,12 @@ public class RepositoriesIntegrationTest {
     
     //-----------------> Private methods
 
-    private Plan createBasicPlan() {
-    	Plan plan = new Plan();
-    	plan.setId(BASIC_PLAN_ID);
-    	plan.setName("Basic");
-    	return plan;
+    private Plan createPlan(PlansEnum plansEnum) {
+    	return new Plan(plansEnum);
     }
     
-    private Role createBasicRole() {
-    	Role role = new Role();
-    	role.setId(BASIC_ROLE_ID);
-    	role.setName("ROLE_USER");
-    	return role;
-    }
-    
-    private User createBasicUser() {
-
-		User user = new User();
-		user.setUsername("basicUsername");
-		user.setPassword("secret");
-		user.setEmail("me@example.com");
-		user.setFirstName("firstName");
-		user.setLastName("lastName");
-		user.setPhoneNumber("123123123");
-		user.setCountry("GB");
-		user.setEnabled(true);
-		user.setDescription("A basic user");
-		user.setProfileImageUrl("https://blabla.images.com/basicuser");
-		return user;
+    private Role createRole(RolesEnum rolesEnum) {
+    	return new Role(rolesEnum);
     }
     
 }
