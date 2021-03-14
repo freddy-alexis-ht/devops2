@@ -32,9 +32,11 @@ public class Pry02282021FullstackUdemyDevopsApplication implements CommandLineRu
 
 	@Override
 	public void run(String... args) throws Exception {
-		User user = UserUtils.createBasicUser();
+		String username = "proUser";
+		String email = "proUser@devops.com";
+		User user = UserUtils.createBasicUser(username, email);
 		Set<UserRole> userRoles = new HashSet<>();
-		userRoles.add(new UserRole(user, new Role(RolesEnum.BASIC)));
+		userRoles.add(new UserRole(user, new Role(RolesEnum.PRO)));
 		LOG.debug("Creating user with username {}", user.getUsername());
 		userService.createUser(user, PlansEnum.PRO, userRoles);
 		LOG.info("User {} created", user.getUsername());
