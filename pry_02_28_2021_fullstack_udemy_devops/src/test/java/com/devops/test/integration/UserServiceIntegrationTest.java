@@ -14,7 +14,7 @@ import com.devops.backend.persistence.domain.backend.UserRole;
 import com.devops.backend.service.UserService;
 import com.devops.enums.PlansEnum;
 import com.devops.enums.RolesEnum;
-import com.devops.utils.UsersUtils;
+import com.devops.utils.UserUtils;
 
 @SpringBootTest
 public class UserServiceIntegrationTest {
@@ -26,7 +26,7 @@ public class UserServiceIntegrationTest {
     public void testCreateNewUser() throws Exception {
 
         Set<UserRole> userRoles = new HashSet<>();
-        User basicUser = UsersUtils.createBasicUser();
+        User basicUser = UserUtils.createBasicUser();
         userRoles.add(new UserRole(basicUser, new Role(RolesEnum.BASIC)));
 
         User user = userService.createUser(basicUser, PlansEnum.BASIC, userRoles);

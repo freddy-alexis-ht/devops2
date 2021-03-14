@@ -2,10 +2,10 @@ package com.devops.utils;
 
 import com.devops.backend.persistence.domain.backend.User;
 
-public class UsersUtils {
+public class UserUtils {
 
 	// Ya que no queremos que se creen instancias de esta clase..
-	private UsersUtils() {
+	private UserUtils() {
 		throw new AssertionError("Non instantiable");
 	}
 	

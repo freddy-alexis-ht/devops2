@@ -14,7 +14,7 @@ import com.devops.backend.persistence.domain.backend.UserRole;
 import com.devops.backend.service.UserService;
 import com.devops.enums.PlansEnum;
 import com.devops.enums.RolesEnum;
-import com.devops.utils.UsersUtils;
+import com.devops.utils.UserUtils;
 
 @SpringBootApplication
 public class Pry02282021FullstackUdemyDevopsApplication implements CommandLineRunner {
@@ -32,7 +32,7 @@ public class Pry02282021FullstackUdemyDevopsApplication implements CommandLineRu
 
 	@Override
 	public void run(String... args) throws Exception {
-		User user = UsersUtils.createBasicUser();
+		User user = UserUtils.createBasicUser();
 		Set<UserRole> userRoles = new HashSet<>();
 		userRoles.add(new UserRole(user, new Role(RolesEnum.BASIC)));
 		LOG.debug("Creating user with username {}", user.getUsername());

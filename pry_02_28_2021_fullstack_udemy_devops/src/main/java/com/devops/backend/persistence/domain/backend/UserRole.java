@@ -5,6 +5,8 @@ import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,6 +19,10 @@ public class UserRole implements Serializable {
     /** The Serial Version UID for Serializable classes. */
     private static final long serialVersionUID = 1L;
 
+//    @Id
+//    @GeneratedValue(strategy=GenerationType.AUTO)
+//    private long id;
+    
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -35,7 +41,16 @@ public class UserRole implements Serializable {
     	this.user = user;
     	this.role = role;
     }
+
     
+//	public long getId() {
+//		return id;
+//	}
+//
+//	public void setId(long id) {
+//		this.id = id;
+//	}
+
 	public User getUser() {
 		return user;
 	}
@@ -51,6 +66,23 @@ public class UserRole implements Serializable {
 	public void setRole(Role role) {
 		this.role = role;
 	}
+
+//	@Override
+//	public int hashCode() {
+//		return Objects.hash(id);
+//	}
+//
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null)
+//			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
+//		UserRole other = (UserRole) obj;
+//		return id == other.id;
+//	}
 
 	@Override
 	public int hashCode() {
@@ -68,6 +100,7 @@ public class UserRole implements Serializable {
 		UserRole other = (UserRole) obj;
 		return Objects.equals(role, other.role) && Objects.equals(user, other.user);
 	}
-    
-    
+
+
+
 }
