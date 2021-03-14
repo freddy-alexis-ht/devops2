@@ -2,10 +2,10 @@ package com.devops.backend.service;
 
 import java.util.Set;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.devops.backend.persistence.domain.backend.Plan;
 import com.devops.backend.persistence.domain.backend.User;
@@ -27,12 +27,18 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     // To methods that update or write records to the DB
     // no-arg -> read & write transactions
     @Transactional
     public User createUser(User user, PlansEnum plansEnum, Set<UserRole> userRoles) {
 
+    	String encryptedPassword = passwordEncoder.encode(user.getPassword());
+    	user.setPassword(encryptedPassword);
+    	
         Plan plan = new Plan(plansEnum);
         // It makes sure the plans exist in the database
         // En el video usa exists(), ya no es valido, en su lugar existsById()

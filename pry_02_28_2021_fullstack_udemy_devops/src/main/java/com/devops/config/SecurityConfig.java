@@ -1,5 +1,6 @@
 package com.devops.config;
 
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -25,6 +27,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private Environment env;
 
+	/** The encryption */
+	private static final String SALT = "fdalkjalk;3jlwf00sfaof";
+
+	// arg-1: es el 'strength', por defecto es '10'
+	// Del Spring javadoc docum para esta clase, se sabe que mientras más 'strength', más
+	// ..trabajo tendrá que hacerse, de forma exponencial, to hash the password
+	// Así que es un asunto de encontrar el balance entre velocidad y strength
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder(12, new SecureRandom(SALT.getBytes()));
+	}
+	
     /** Public URLs. */
     private static final String[] PUBLIC_MATCHERS = {
             "/webjars/**", // bootstrap & jquery libraries
@@ -65,13 +79,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
-        		.userDetailsService(userSecurityService);
+        		.userDetailsService(userSecurityService)
+        		.passwordEncoder(passwordEncoder());
     }
     
-    @Bean
-    public PasswordEncoder getPasswordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }   
+//    @Bean
+//    public PasswordEncoder getPasswordEncoder() {
+//        return NoOpPasswordEncoder.getInstance();
+//    }   
 
 	
 }
