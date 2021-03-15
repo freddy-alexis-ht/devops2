@@ -66,6 +66,11 @@ public class User implements Serializable, UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<UserRole> userRoles = new HashSet<>();
 
+    // CascadeType.ALL .. si se borra un User, sus tokens también deben ser borrados
+    // FetchType.LAZY .. porque la mayor parte del tiempo no tendremos tokens para el User..
+    // ..por lo que no queremos un join adicional cada vez que se consulte la tabla-User
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<PasswordResetToken> passwordResetTokens = new HashSet<>();
 
 	public User() {
 		super();
@@ -209,6 +214,17 @@ public class User implements Serializable, UserDetails {
 
 	public void setUserRoles(Set<UserRole> userRoles) {
 		this.userRoles = userRoles;
+	}
+
+
+	
+	public Set<PasswordResetToken> getPasswordResetTokens() {
+		return passwordResetTokens;
+	}
+
+
+	public void setPasswordResetTokens(Set<PasswordResetToken> passwordResetTokens) {
+		this.passwordResetTokens = passwordResetTokens;
 	}
 
 
