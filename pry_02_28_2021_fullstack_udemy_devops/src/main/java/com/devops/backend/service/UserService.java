@@ -19,6 +19,9 @@ import com.devops.enums.PlansEnum;
 @Transactional(readOnly=true)
 public class UserService {
 
+	/** The application logger */
+	private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(UserService.class);
+	
     @Autowired
     private RoleRepository roleRepository;
 
@@ -59,5 +62,12 @@ public class UserService {
 
         return user;
 
+    }
+    
+    @Transactional
+    public void updateUserPassword(long userId, String password) {
+        password = passwordEncoder.encode(password);
+        userRepository.updateUserPassword(userId, password);
+        LOG.debug("Password updated successfully for user id {} ", userId);
     }
 }
