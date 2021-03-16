@@ -1,4 +1,4 @@
-package com.devops.web.i18n;
+package com.devops.backend.service;
 
 import java.util.Locale;
 

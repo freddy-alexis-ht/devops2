@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.devops.web.i18n.I18NService;
+import com.devops.backend.service.I18NService;
 
 @SpringBootTest
 class Pry02282021FullstackUdemyDevopsApplicationTests {
