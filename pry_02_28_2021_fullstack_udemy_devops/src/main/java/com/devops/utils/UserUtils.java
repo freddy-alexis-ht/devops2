@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.devops.backend.persistence.domain.backend.User;
 import com.devops.web.controllers.ForgotMyPasswordController;
+import com.devops.web.domain.frontend.BasicAccountPayload;
 
 public class UserUtils {
 
@@ -57,5 +58,20 @@ public class UserUtils {
 
         return passwordResetUrl;
     }
+
+    public static <T extends BasicAccountPayload> User fromWebUserToDomainUser(T frontendPayload) {
+        User user = new User();
+        user.setUsername(frontendPayload.getUsername());
+        user.setPassword(frontendPayload.getPassword());
+        user.setFirstName(frontendPayload.getFirstName());
+        user.setLastName(frontendPayload.getLastName());
+        user.setEmail(frontendPayload.getEmail());
+        user.setPhoneNumber(frontendPayload.getPhoneNumber());
+        user.setCountry(frontendPayload.getCountry());
+        user.setEnabled(true);
+        user.setDescription(frontendPayload.getDescription());
+
+        return user;
+	}
 	
 }
