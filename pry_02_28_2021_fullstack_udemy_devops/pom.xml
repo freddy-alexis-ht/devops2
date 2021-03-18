@@ -78,17 +78,18 @@
 			<version>3.0.4.RELEASE</version>
 		</dependency>
 		
+		<!-- Puede ser cualquiera de las dos dependencias -->
 		<!-- Validator 
 	    <dependency>
 	        <groupId>org.springframework.boot</groupId>
 	        <artifactId>spring-boot-starter-validation</artifactId>
 	    </dependency>
-    		-->
-<dependency>
-    <groupId>org.hibernate</groupId>
-    <artifactId>hibernate-validator</artifactId>
-    <version>6.2.0.Final</version>
-</dependency>
+    	-->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-validator</artifactId>
+		    <version>6.2.0.Final</version>
+		</dependency>
 
 
 		<!-- Test dependencies -->
