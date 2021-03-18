@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.devops.backend.persistence.domain.backend.Role;
 import com.devops.backend.persistence.domain.backend.User;
 import com.devops.backend.persistence.domain.backend.UserRole;
+import com.devops.backend.service.PlanService;
 import com.devops.backend.service.UserService;
 import com.devops.enums.PlansEnum;
 import com.devops.enums.RolesEnum;
@@ -36,12 +37,20 @@ public class Pry02282021FullstackUdemyDevopsApplication implements CommandLineRu
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private PlanService planService;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(Pry02282021FullstackUdemyDevopsApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
+		
+		LOG.info("Creating Basic and Pro plans in the DB...");
+		planService.createPlan(PlansEnum.BASIC.getId());
+		planService.createPlan(PlansEnum.PRO.getId());
+
 		User user = UserUtils.createBasicUser(webmasterUsername, webmasterEmail);
 		user.setPassword(webmasterPassword);
 		Set<UserRole> userRoles = new HashSet<>();
