@@ -25,6 +25,7 @@ import com.devops.backend.persistence.domain.backend.Role;
 import com.devops.backend.persistence.domain.backend.User;
 import com.devops.backend.persistence.domain.backend.UserRole;
 import com.devops.backend.service.PlanService;
+import com.devops.backend.service.S3Service;
 import com.devops.backend.service.UserService;
 import com.devops.enums.PlansEnum;
 import com.devops.enums.RolesEnum;
@@ -40,6 +41,9 @@ public class SignupController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private S3Service s3Service;
 	
 	/** The application logger */
 	private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(SignupController.class);
@@ -121,7 +125,7 @@ public class SignupController {
 
         // Stores the profile image on Amazon S3 and stores the URL in the user's record
         if (file != null && !file.isEmpty()) {
-        	String profileImageUrl = null;
+        	String profileImageUrl = s3Service.storeProfileImage(file, payload.getUsername());
         	if (profileImageUrl != null) {
         		user.setProfileImageUrl(profileImageUrl);
         	} else {
