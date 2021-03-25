@@ -18,7 +18,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 @EnableJpaRepositories(basePackages="com.devops.backend.persistence.repositories")
 @EntityScan(basePackages="com.devops.backend.persistence.domain.backend")
 @EnableTransactionManagement
-@PropertySource("file:D:\\UDEMY\\01 PROYECTO FULL STACK\\application-common.properties")
+@PropertySource("file:D:\\UDEMY\\01 PROYECTO FULL STACK\\config\\application-common.properties")
 public class ApplicationConfig {
 
 	// desde application-common.properties -> miperfil

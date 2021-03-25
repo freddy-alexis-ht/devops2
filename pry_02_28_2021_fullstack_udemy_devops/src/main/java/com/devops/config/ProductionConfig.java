@@ -10,7 +10,7 @@ import com.devops.backend.service.SmtpEmailService;
 
 @Configuration
 @Profile("prod")
-@PropertySource("file:D:\\UDEMY\\01 PROYECTO FULL STACK\\application-prod.properties")
+@PropertySource("file:D:\\UDEMY\\01 PROYECTO FULL STACK\\config\\application-prod.properties")
 public class ProductionConfig {
 
 	@Bean

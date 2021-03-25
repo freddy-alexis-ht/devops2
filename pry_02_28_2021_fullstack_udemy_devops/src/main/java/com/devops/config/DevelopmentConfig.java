@@ -12,7 +12,7 @@ import com.devops.backend.service.MockEmailService;
 
 @Configuration
 @Profile("dev")
-@PropertySource("file:D:\\UDEMY\\01 PROYECTO FULL STACK\\application-dev.properties")
+@PropertySource("file:D:\\UDEMY\\01 PROYECTO FULL STACK\\config\\application-dev.properties")
 public class DevelopmentConfig {
 
 	@Bean
